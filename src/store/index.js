@@ -1,12 +1,11 @@
-import { createStore } from 'redux';
+import { createStore, compose } from 'redux';
 import reducer from './reducer';
 
-const devToolState = (() => {
-  if (process.env.NODE_ENV !== 'production') {
-    return window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
-  }
-})();
+const composeEnhancers =
+  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ && process.env.NODE_ENV !== 'production'
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    : compose;
 
-const store = createStore(reducer, devToolState);
+const store = createStore(reducer, composeEnhancers());
 
 export default store;
